@@ -4,14 +4,15 @@ def clean_up(token):
     # Return words without their punctuation if it's come at the end of the word.
     # Disregard everything else
 
+    useless_beginning = '"'
     we_want = '[а-я]+\-?[а-я]*'
-    we_dont_want = ',|.|!|\?|:|;|"'
+    useless_ending = ',|.|!|\?|:|;|"'
 
-    word_pattern = f'^({we_want})({we_dont_want})?$'
+    word_pattern = f'^({useless_beginning})?({we_want})({useless_ending})?$'
     token = token.lower()
 
     try:
-        punctuated = re.search(word_pattern, token)
+        punctuated = re.search(word_pattern, token).groups()
         return (punctuated[1])
     except KeyError as e:
         return None
